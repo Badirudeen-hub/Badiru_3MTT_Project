@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Results | EduResult</title>
+
+    <link rel="stylesheet"
+          href="css/style.css">
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="dashboard-header">
+
+        <h2>EduResult</h2>
+
+        <button onclick="logout()">
+            Logout
+        </button>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="results-container">
+
+        <h1>Academic Results</h1>
+
+
+        <!-- STUDENT SELECTION -->
+
+        <div class="student-selector">
+
+            <label for="studentSelect">
+                Select Demo Student:
+            </label>
+
+            <select id="studentSelect"
+                    onchange="displayStudentResult()">
+
+                <option value="STU001">
+                    Aisha Mohammed - STU001
+                </option>
+
+                <option value="STU002">
+                    Daniel Okafor - STU002
+                </option>
+
+                <option value="STU003">
+                    Fatima Ibrahim - STU003
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- STUDENT INFORMATION -->
+
+        <div class="student-result-info">
+
+            <p>
+                <strong>Name:</strong>
+                <span id="studentName">
+                    Aisha Mohammed
+                </span>
+            </p>
+
+            <p>
+                <strong>Student ID:</strong>
+                <span id="studentId">
+                    STU001
+                </span>
+            </p>
+
+            <p>
+                <strong>Class:</strong>
+                <span id="studentClass">
+                    SS3
+                </span>
+            </p>
+
+            <p>
+                <strong>Session:</strong>
+                <span id="studentSession">
+                    2025/2026
+                </span>
+            </p>
+
+            <p>
+                <strong>Term:</strong>
+                First Term
+            </p>
+
+        </div>
+
+
+        <!-- RESULTS TABLE -->
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Subject</th>
+
+                        <th>CA (40)</th>
+
+                        <th>Exam (60)</th>
+
+                        <th>Total</th>
+
+                        <th>Grade</th>
+
+                        <th>Remark</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="resultTable">
+
+                    <!-- JavaScript will display results -->
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="result-summary">
+
+            <h2>
+                Average:
+                <span id="average">
+                    76.5%
+                </span>
+            </h2>
+
+            <p>
+
+                Overall Performance:
+
+                <strong id="performance">
+                    Very Good
+                </strong>
+
+            </p>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="result-buttons">
+
+            <button onclick="window.print()">
+                🖨️ Print Result
+            </button>
+
+
+            <a href="dashboard.html">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+        <!-- DEMO NOTICE -->
+
+        <div class="demo-notice">
+
+            <strong>Demo Notice</strong>
+
+            <p>
+
+                All student names, identification
+                numbers and academic results displayed
+                on this page are fictional and are used
+                only for the 3MTT project demonstration.
+
+            </p>
+
+        </div>
+
+    </main>
+
+
+<script>
+
+
+// ========================================
+// FICTIONAL STUDENT DATA
+// ========================================
+
+
+const students = {
+
+    STU001: {
+
+        name: "Aisha Mohammed",
+
+        id: "STU001",
+
+        className: "SS3",
+
+        session: "2025/2026",
+
+        results: [
+
+            ["English Language", 32, 52],
+            ["Mathematics", 30, 48],
+            ["Biology", 28, 45],
+            ["Chemistry", 27, 43],
+            ["Physics", 25, 42],
+            ["Computer Studies", 35, 55],
+            ["Economics", 29, 44],
+            ["Civic Education", 31, 46]
+
+        ]
+
+    },
+
+
+    STU002: {
+
+        name: "Daniel Okafor",
+
+        id: "STU002",
+
+        className: "SS3",
+
+        session: "2025/2026",
+
+        results: [
+
+            ["English Language", 28, 45],
+            ["Mathematics", 27, 44],
+            ["Biology", 25, 42],
+            ["Chemistry", 26, 40],
+            ["Physics", 24, 41],
+            ["Computer Studies", 30, 48],
+            ["Economics", 27, 43],
+            ["Civic Education", 29, 45]
+
+        ]
+
+    },
+
+
+    STU003: {
+
+        name: "Fatima Ibrahim",
+
+        id: "STU003",
+
+        className: "SS3",
+
+        session: "2025/2026",
+
+        results: [
+
+            ["English Language", 35, 55],
+            ["Mathematics", 34, 53],
+            ["Biology", 32, 51],
+            ["Chemistry", 31, 50],
+            ["Physics", 30, 49],
+            ["Computer Studies", 37, 57],
+            ["Economics", 33, 52],
+            ["Civic Education", 35, 54]
+
+        ]
+
+    }
+
+};
+
+
+// ========================================
+// CALCULATE GRADE
+// ========================================
+
+
+function getGrade(total) {
+
+    if (total >= 75) {
+
+        return ["A", "Excellent"];
+
+    }
+
+    else if (total >= 65) {
+
+        return ["B", "Very Good"];
+
+    }
+
+    else if (total >= 55) {
+
+        return ["C", "Good"];
+
+    }
+
+    else if (total >= 45) {
+
+        return ["D", "Fair"];
+
+    }
+
+    else if (total >= 40) {
+
+        return ["E", "Pass"];
+
+    }
+
+    else {
+
+        return ["F", "Fail"];
+
+    }
+
+}
+
+
+// ========================================
+// DISPLAY STUDENT RESULT
+// ========================================
+
+
+function displayStudentResult() {
+
+    const selectedId =
+        document.getElementById(
+            "studentSelect"
+        ).value;
+
+
+    const student =
+        students[selectedId];
+
+
+    // Student information
+
+    document.getElementById(
+        "studentName"
+    ).textContent =
+        student.name;
+
+
+    document.getElementById(
+        "studentId"
+    ).textContent =
+        student.id;
+
+
+    document.getElementById(
+        "studentClass"
+    ).textContent =
+        student.className;
+
+
+    document.getElementById(
+        "studentSession"
+    ).textContent =
+        student.session;
+
+
+    // Result table
+
+    const table =
+        document.getElementById(
+            "resultTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    let totalMarks = 0;
+
+
+    student.results.forEach(function(result) {
+
+        const subject = result[0];
+
+        const ca = result[1];
+
+        const exam = result[2];
+
+        const total = ca + exam;
+
+
+        totalMarks += total;
+
+
+        const gradeInfo =
+            getGrade(total);
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>${subject}</td>
+
+            <td>${ca}</td>
+
+            <td>${exam}</td>
+
+            <td>${total}</td>
+
+            <td>${gradeInfo[0]}</td>
+
+            <td>${gradeInfo[1]}</td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+
+    // Calculate average
+
+    const average =
+        totalMarks /
+        student.results.length;
+
+
+    document.getElementById(
+        "average"
+    ).textContent =
+        average.toFixed(1) + "%";
+
+
+    // Overall performance
+
+    let performance;
+
+
+    if (average >= 75) {
+
+        performance = "Excellent";
+
+    }
+
+    else if (average >= 65) {
+
+        performance = "Very Good";
+
+    }
+
+    else if (average >= 55) {
+
+        performance = "Good";
+
+    }
+
+    else if (average >= 45) {
+
+        performance = "Fair";
+
+    }
+
+    else {
+
+        performance = "Needs Improvement";
+
+    }
+
+
+    document.getElementById(
+        "performance"
+    ).textContent =
+        performance;
+
+}
+
+
+// ========================================
+// LOGOUT
+// ========================================
+
+
+function logout() {
+
+    localStorage.clear();
+
+    window.location.href =
+        "login.html";
+
+}
+
+
+// ========================================
+// LOAD FIRST STUDENT AUTOMATICALLY
+// ========================================
+
+
+displayStudentResult();
+
+</script>
+
+
+</body>
+
+</html>
